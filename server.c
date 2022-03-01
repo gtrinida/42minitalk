@@ -1,14 +1,50 @@
 #include "minitalk.h"
 
+void function(char sym)
+{
+	int shift;
+	int	bit;
+	int res;
+	
+	shift = 0;
+	while(shift < 8)
+	{
+		bit = (sym >> shift) & 1;
+		if(bit == 0)
+		{
+			printf("0\n");
+		}
+		else		
+			printf("1\n");
+		shift++;
+	}
+}
 void print(int signal)
 {
-	static int bit;
-	static char sym;
+	static char	sym;
+	static int	bit;
 	
-	if(signal == SIGUSR1)
-		printf("0\n");
-	if(signal == SIGUSR2)
-		printf("1\n");
+	printf("sym at new\n");
+	function(sym);
+
+	if (signal == SIGUSR1)
+	{
+		sym = (sym << 1);
+		bit++;
+	}
+	else if (signal == SIGUSR2)
+	{
+		sym = (sym << 1) | 1;
+		bit++;
+	}
+	if (bit > 7)
+	{
+		printf("final\n");
+		function(sym);
+		write(1, &sym, 1);
+		sym = 0;
+		bit = 0;
+	}
 }
 
 int main(int argc, char **argv)
