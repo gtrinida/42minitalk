@@ -1,61 +1,51 @@
 #include "minitalk.h"
 
-int	ft_nonspace(char c)
+void ft_string_delivery(int pid, char sym)
 {
-	return (c == '\t' || c == '\v' || c == '\f'
-		|| c == '\r' || c == '\n' || c == ' ');
-}
-
-int	ft_checklong(int result, int term, int sign)
-{
-	long long int	res;
-
-	res = result;
-	res = result * 10 + term;
-	if (sign == 1)
+	int shift;
+	int	bit;
+	int res;
+	
+	shift = 0;
+	while(shift < 8)
 	{
-		if (res > 2147483647)
-			return (-1);
+		bit = (sym >> shift) & 1;
+		if(bit == 0)
+		{
+			res = kill(pid, SIGUSR1);
+			printf("0\n");
+		}
+		else
+		{		
+			res = kill(pid, SIGUSR2);
+			printf("1\n");
+		}
+		shift++;
+		if (res == -1)
+		{
+			write(1, "Server PID is invalid\n", 23);
+			return ;
+		}
+		usleep(50);
 	}
-	if (sign == -1)
-	{
-		if (res < -2147483648)
-			return (0);
-	}
-	return (1);
-}
-
-int	ft_atoi(char *str)
-{
-	int	i;
-	int	sign;
-	int	result;
-
-	i = 0;
-	sign = 1;
-	result = 0;
-	while (str[i] && ft_nonspace(str[i]))
-		i++;
-	if (str[i] == '-')
-	{
-		sign = -1;
-		i++;
-	}
-	else if (str[i] == '+')
-		i++;
-	while (str[i] != '\0' && str[i] >= '0' && str[i] <= '9')
-	{
-		if (ft_checklong(result, (str[i] - '0'), sign) != 1)
-			return (ft_checklong(result, (str[i] - '0'), sign));
-		result = result * 10 + (str[i] - '0');
-		i++;
-	}
-	return (result * sign);
 }
 
 int main(int argc, char **argv)
 {
-	int sym = ft_atoi(argv[1]);
-	kill(sym, SIGUSR1);
+	int pid;
+	int i;
+
+	i = 0;
+	if (argc != 3)
+	{
+		write(1, "Invalid value, you must enter: [PID] [message]\n", 48);
+		return(0);
+	}
+	pid = ft_atoi(argv[1]);
+	while(argv[2][i])
+	{
+		ft_string_delivery(pid, argv[2][i]);
+		i++;
+	}
 	return(0);
 }

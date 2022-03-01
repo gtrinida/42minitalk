@@ -1,20 +1,30 @@
 #include "minitalk.h"
 
-void print(int flag)
+void print(int signal)
 {
-	if (flag = 1)
-		write(1, "Signal received\n", 17);
+	static int bit;
+	static char sym;
+	
+	if(signal == SIGUSR1)
+		printf("0\n");
+	if(signal == SIGUSR2)
+		printf("1\n");
 }
+
 int main(int argc, char **argv)
 {
 	int pid;
-	int flag;
 
-	flag = 1;
+	if (argc != 1)
+	{
+		write(1, "Incorrect server launch\n", 25);
+		return (0);
+	}
 	pid = getpid();
-	printf("PID is: %d\n", pid);
-	signal(SIGUSR1, print);
+	signal(SIGUSR1, &print);
+	signal(SIGUSR2, &print);
+	printf("Server PID: %d\n", pid);
 	while(1)
 		pause();
-	return(0);
+	
 }
