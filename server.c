@@ -4,7 +4,6 @@ void function(char sym)
 {
 	int shift;
 	int	bit;
-	int res;
 	
 	shift = 0;
 	while(shift < 8)
@@ -12,34 +11,26 @@ void function(char sym)
 		bit = (sym >> shift) & 1;
 		if(bit == 0)
 		{
-			printf("0\n");
+			printf("0");
 		}
 		else		
-			printf("1\n");
+			printf("1");
 		shift++;
 	}
+	printf("\n");
 }
+
 void print(int signal)
 {
 	static char	sym;
 	static int	bit;
-	
-	printf("sym at new\n");
+	printf("Sym is:\n");
 	function(sym);
-
-	if (signal == SIGUSR1)
+	sym |= (signal == SIGUSR2);
+	sym <<= 1;
+	if (++bit == 8)
 	{
-		sym = (sym << 1);
-		bit++;
-	}
-	else if (signal == SIGUSR2)
-	{
-		sym = (sym << 1) | 1;
-		bit++;
-	}
-	if (bit > 7)
-	{
-		printf("final\n");
+		printf("finish\n");
 		function(sym);
 		write(1, &sym, 1);
 		sym = 0;
