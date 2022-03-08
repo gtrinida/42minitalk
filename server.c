@@ -1,10 +1,5 @@
 #include "minitalk.h"
 
-void ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
 void	print(int signal)
 {
 	static char sym;
@@ -32,7 +27,7 @@ int	main(void)
 	pid = getpid();
 	ft_putstr_fd("Server PID is: ", 1);
 	ft_putnbr_fd(pid, 1);
-	ft_putchar('\n');
+	write(1, "\n", 1);
 	signal(SIGUSR2, print);
 	signal(SIGUSR1, print);
 	while (1)
