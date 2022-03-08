@@ -1,57 +1,40 @@
 #include "minitalk.h"
 
-void function(char sym)
+void ft_putchar(char c)
 {
-	int shift;
-	int	bit;
-	
-	shift = 0;
-	while(shift < 8)
-	{
-		bit = (sym >> shift) & 1;
-		if(bit == 0)
-		{
-			printf("0");
-		}
-		else		
-			printf("1");
-		shift++;
-	}
-	printf("\n");
+	write(1, &c, 1);
 }
 
-void print(int signal)
+void	print(int signal)
 {
-	static char	sym;
-	static int	bit;
-	printf("Sym is:\n");
-	function(sym);
-	sym |= (signal == SIGUSR2);
-	sym <<= 1;
-	if (++bit == 8)
+	static char sym;
+	static int bit;
+
+	if (signal == SIGUSR1)
+		signal = 0;
+	else
+		signal = 1;
+	sym += signal << bit;
+	bit++;
+	if (bit == 8)
 	{
-		printf("finish\n");
-		function(sym);
 		write(1, &sym, 1);
-		sym = 0;
 		bit = 0;
+		sym = 0;
 	}
+
 }
 
-int main(int argc, char **argv)
+int	main(void)
 {
 	int pid;
 
-	if (argc != 1)
-	{
-		write(1, "Incorrect server launch\n", 25);
-		return (0);
-	}
 	pid = getpid();
-	signal(SIGUSR1, &print);
-	signal(SIGUSR2, &print);
-	printf("Server PID: %d\n", pid);
-	while(1)
+	ft_putstr_fd("Server PID is: ", 1);
+	ft_putnbr_fd(pid, 1);
+	ft_putchar('\n');
+	signal(SIGUSR2, print);
+	signal(SIGUSR1, print);
+	while (1)
 		pause();
-	
 }
