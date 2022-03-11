@@ -6,7 +6,7 @@
 /*   By: gtrinida <gtrinida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 18:16:33 by gtrinida          #+#    #+#             */
-/*   Updated: 2022/03/11 18:20:24 by gtrinida         ###   ########.fr       */
+/*   Updated: 2022/03/11 22:21:44 by gtrinida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ int		ft_atoi(const char *str);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd_exit(char *s, int fd);
 
 #endif

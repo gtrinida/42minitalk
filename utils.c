@@ -6,7 +6,7 @@
 /*   By: gtrinida <gtrinida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 18:16:07 by gtrinida          #+#    #+#             */
-/*   Updated: 2022/03/11 18:19:02 by gtrinida         ###   ########.fr       */
+/*   Updated: 2022/03/11 22:21:36 by gtrinida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
+}
+
+void	ft_putstr_fd_exit(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+	exit(1);
 }
 
 void	ft_putstr_fd(char *s, int fd)
