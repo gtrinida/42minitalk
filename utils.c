@@ -1,4 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gtrinida <gtrinida@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/11 18:16:07 by gtrinida          #+#    #+#             */
+/*   Updated: 2022/03/11 18:19:02 by gtrinida         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
 
 void	ft_putstr_fd(char *s, int fd)
 {
@@ -64,4 +81,3 @@ void	ft_putnbr_fd(int n, int fd)
 		write(fd, &num[i++], 1);
 	}
 }
-
